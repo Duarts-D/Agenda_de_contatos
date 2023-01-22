@@ -1,9 +1,24 @@
 {% extends 'base/base.html' %}
+{% block title %}Dashboard de {{user.first_name}}| {% endblock %}
 {% block base%}
 
 <h1 class="mt-3 mb-3">Olá {{ user.first_name }} {{ user.last_name }}</h1>
 {% include 'partials/_message.html' %}
 <p>
-    O seu nome de usuário é {{user}}.
+    Adicionar contato.
 </p>
+
+<div class="container">
+    <form action="{% url 'dashboard' %}"method="POST" enctype="multipart/form-data">
+        {% csrf_token %} 
+        <table class="table">
+            {{formdash}}
+            <tr>
+                <td cospan="2">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
 {% endblock %}

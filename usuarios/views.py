@@ -4,6 +4,7 @@ from django.contrib import auth
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from usuarios.models import FormContato
 
 def login(request):
     form = LoginForms()
@@ -28,7 +29,7 @@ def login(request):
             else:
                 messages.error(request,'Usuario ou senha incorretos')
                 return redirect('login') 
-    return render(request,'usuarios/login.html',{'form':form})
+    return render(request,'usuarios/teste.html',{'form':form})
 
 def logout(request):
     auth.logout(request)
@@ -62,4 +63,12 @@ def cadastro(request):
 
 @login_required(login_url='login')
 def dashboard(request):
-    return render(request,'usuarios/dashboard.html')
+    form = FormContato()
+    if request.method == 'POST':
+        form = FormContato(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request,f'Contato {request.POST.get("nome")} Salvo com sucesso!!')
+            return redirect('index')
+    return render(request,'usuarios/dashboard.html',{'formdash':form})
+

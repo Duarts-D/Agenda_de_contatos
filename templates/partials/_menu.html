@@ -8,8 +8,11 @@
         <a class="navbar-brand" href="{% url 'login'%}">Login</a>
             <a class="navbar-brand" href="{% url 'cadastro'%}">Cadastro</a>
         {% else %}
-        <a class="navbar-brand" href="{% url 'dashboard'%}">Minha pagina</a>
-        <a class="navbar-brand" href="{% url 'logout'%}">Sair</a>
+          {% if not formdash %}
+          <a class="navbar-brand" href="{% url 'dashboard'%}">Adicionar Contato</a>
+          {%else%}
+          {%endif%}
+          <a class="navbar-brand" href="{% url 'logout'%}">Desconectar</a>
         {%endif%}
       </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
