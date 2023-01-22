@@ -1,0 +1,50 @@
+{% extends 'base/base.html' %}
+{% block base%}
+
+<!-- Page Content -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+
+      {% if contato %}
+      <h1 class="mt-5">{{contato.nome.capitalize}} {{contato.sobrenome.capitalize}}</h1>
+      {% if contato.foto %}
+      <img src="{{contato.foto.url}}" style="max-width: 250px; heigth: auto;" alt=""> 
+      {%else%}
+      {%endif%}
+
+      <dl>
+        <dt>Telefone</dt>
+        <dd>{{contato.telefone}}</dd>
+        <p></p>
+        <dt>E-mail</dt>
+        {% if not contato.email %}
+        Sem informaçoes!!
+        {%else%}
+        <dd>{{contato.email}}</dd>
+        {%endif%}
+        <p></p>
+        <dt>Data criação</dt>
+        <dd>{{contato.data_criacao}}</dd>
+        <p></p>
+        <dt>Categoria</dt>
+        <dd>{{contato.get_categoria_display}}</dd>
+        <p></p>
+        <dt>Descrição</dt>
+        {% if not contato.descriçao %}
+        <dd>
+          Sem informaçoes!!
+        </dd>
+        {%else%}
+        <dd>
+          {{contato.descriçao}}
+        </dd>
+        {%endif%}
+      </dl>
+
+    </div>
+  </div>
+</div>
+
+{%endif%}
+{% endblock%}

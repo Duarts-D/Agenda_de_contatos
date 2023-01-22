@@ -1,0 +1,39 @@
+{% extends 'base/base.html' %}
+{% block base%}
+  <!-- Page Content -->
+
+        {% include 'partials/_busca.html' %}
+        {% include 'partials/_message.html' %}
+        <h1 class="mt-5">Minha agenda</h1>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Sobrenome</th>
+              <th>Telefone</th>
+              <th>Categoria</th>
+            </tr>
+          </thead>
+          {% if contatos %}
+          {% for contato in contatos%}
+            <tbody>
+              <tr>
+                <td>
+                  <a href="{% url 'ver_contato' contato.id %}">{{contato.nome.capitalize}}</a>
+                </td>
+                <td>
+                  <a href="{% url 'ver_contato' contato.id %}">{{contato.sobrenome.capitalize}}</a>
+                </td>
+                <td>{{contato.telefone}}</td>
+                <td>{{contato.get_categoria_display}}</td>
+              </tr>
+            </tbody>
+            {%endfor%}
+            {%endif%}
+          </table>
+          {% include 'partials/_paginator.html' %}
+        </div>
+    </div>
+  </div>
+
+{% endblock%}
