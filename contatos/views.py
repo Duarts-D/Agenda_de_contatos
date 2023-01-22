@@ -5,11 +5,19 @@ from django.http import Http404
 from django.db.models import Q,Value
 from django.db.models.functions import Concat
 from django.contrib import messages
+from django.contrib.auth.models import User
+
 def index(request):
-    contatos = Contatos.objects .order_by('-id').filter(mostrar=True)
-    paginator = Paginator(contatos,5)
-    page = request.GET.get('page')
-    contatos = paginator.get_page(page)
+    if request.user.is_authenticated: 
+        contatos = Contatos.objects .order_by('-id').filter(mostrar=True,user=request.user.id)
+        paginator = Paginator(contatos,10)
+        page = request.GET.get('page')
+        contatos = paginator.get_page(page)
+    else:
+        contatos = Contatos.objects .order_by('-id').filter(mostrar=False)
+        paginator = Paginator(contatos,10)
+        page = request.GET.get('page')
+        contatos = paginator.get_page(page)
 
     return render(request,'home/index.html',{'contatos':contatos})
 

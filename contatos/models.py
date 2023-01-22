@@ -1,6 +1,6 @@
 from django.db import models
 from datetime import datetime
-
+from django.contrib.auth import get_user_model
 class Contatos(models.Model):
     CATEGORIA_BASE = (
         ('F','Familia'),
@@ -8,7 +8,8 @@ class Contatos(models.Model):
         ('S','Serviço'),
         ('R','Represetantes')
     )
-
+    
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     nome = models.CharField(max_length=50, null=False, blank=False)
     sobrenome = models.CharField(max_length=50, null=False, blank=False)
     telefone = models.CharField(max_length=15, null=False,blank=False)
@@ -17,7 +18,7 @@ class Contatos(models.Model):
     categoria = models.CharField(max_length=1, choices=CATEGORIA_BASE, default='', null=False, blank=False)
     descriçao = models.TextField(max_length=300, null=False, blank=True)
     foto = models.ImageField(blank=True, upload_to='fotos/%Y/%m/%d/')
-    mostrar = models.BooleanField(default=False)
+    mostrar = models.BooleanField(default=True)
 
     def __str__(self):
         return self.nome

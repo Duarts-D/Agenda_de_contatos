@@ -29,7 +29,7 @@ def login(request):
             else:
                 messages.error(request,'Usuario ou senha incorretos')
                 return redirect('login') 
-    return render(request,'usuarios/teste.html',{'form':form})
+    return render(request,'usuarios/login.html',{'form':form})
 
 def logout(request):
     auth.logout(request)
@@ -67,7 +67,9 @@ def dashboard(request):
     if request.method == 'POST':
         form = FormContato(request.POST,request.FILES)
         if form.is_valid():
-            form.save()
+            task = form.save(commit=False)
+            task.user = request.user
+            task.save()
             messages.success(request,f'Contato {request.POST.get("nome")} Salvo com sucesso!!')
             return redirect('index')
     return render(request,'usuarios/dashboard.html',{'formdash':form})
