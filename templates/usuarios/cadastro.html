@@ -1,0 +1,23 @@
+{% extends 'base/base.html' %}
+{% block base%}
+
+<h1 class="mt-3 mb-3">Cadastro</h1>
+
+    <form method="POST" action="{% url 'cadastro' %}">
+      {% include 'partials/_message.html' %}
+        {% csrf_token %}
+          {% for field in form.visible_fields%}
+            <div class="form-group">
+            <label for="{{field.id_for_label}}">{{field.label}}</label>
+          {{field}}
+        </div>
+        {% for error in field.errors %}
+          <div class="alert alert-danger">
+              {{error}}
+          </div>
+        {% endfor %}
+     {%endfor%}
+      <button type="submit" class="btn btn-primary">Cadastrar</button>
+    </form>
+
+{% endblock %}
