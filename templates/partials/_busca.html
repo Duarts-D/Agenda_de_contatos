@@ -10,3 +10,10 @@
     </div>
   </div>
 </form>
+  <div class="btn-group" >
+    <a href="{% url 'categoria' "F" %}"><button class="btn btn-primary btn-block mb-4">Familia</button></a> 
+    <a href="{% url 'categoria' "A" %}"><button style="margin: 0 15px;" class="btn btn-primary btn-block mb-4">Amigo</button></a>
+      <a href="{% url 'categoria' "S" %}"><button style="margin: 0 30px;" class="btn btn-primary btn-block mb-4">Serviço</button></a>
+      <a href="{% url 'categoria' "R" %}"><button style="margin: 0 45px;" class="btn btn-primary btn-block mb-4">Represetantes</button></a>
+</div>
+{% include 'partials/_message.html'%}

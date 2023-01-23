@@ -10,14 +10,11 @@ from django.contrib.auth.models import User
 def index(request):
     if request.user.is_authenticated: 
         contatos = Contatos.objects .order_by('-id').filter(mostrar=True,user=request.user.id)
-        paginator = Paginator(contatos,10)
-        page = request.GET.get('page')
-        contatos = paginator.get_page(page)
     else:
         contatos = Contatos.objects .order_by('-id').filter(mostrar=False)
-        paginator = Paginator(contatos,10)
-        page = request.GET.get('page')
-        contatos = paginator.get_page(page)
+    paginator = Paginator(contatos,10)
+    page = request.GET.get('page')
+    contatos = paginator.get_page(page)
 
     return render(request,'home/index.html',{'contatos':contatos})
 
@@ -35,14 +32,29 @@ def busca(request):
         return redirect('index')
 
     campos = Concat('nome',Value(' '),'sobrenome')
-    contatos = Contatos.objects.annotate(
+    if request.user.is_authenticated:
+        contatos = Contatos.objects.annotate(
+            nome_completo=campos
+        ).filter(mostrar=True,user=request.user.id,nome_completo__icontains=termo
+        )
+    else:
+        contatos = Contatos.objects.annotate(
         nome_completo=campos
-    ).filter(nome_completo__icontains=termo
-    )
-    
+        ).filter(mostrar=False,nome_completo__icontains=termo
+        )
     paginator = Paginator(contatos,5)
     page = request.GET.get('page')
     contatos = paginator.get_page(page)
 
     return render(request,'home/busca.html',{'contatos':contatos})
-    
+
+def categoria(request,categoria_name):
+    if request.user.is_authenticated:
+        contatos = Contatos.objects.order_by('-id').filter(mostrar=True,user=request.user.id,categoria=categoria_name)
+    else:
+        contatos = Contatos.objects.order_by('-id').filter(mostrar=False,categoria=categoria_name)
+    print(contatos)
+    paginator = Paginator(contatos,10)
+    page = request.GET.get('page')
+    contatos = paginator.get_page(page)
+    return render(request,'home/busca.html',{'contatos':contatos})
